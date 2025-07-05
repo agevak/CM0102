@@ -1,0 +1,41 @@
+Old patch MarkingAndPositioningClampTo75 was designed to fix 2 major bugs in the original game: Positioning and Marking in match values calculation integer overflow.
+Positioing and Marking in the original game have 2 boosts applied:
+1) Non-standard (used only for these 2 attributes) "mega" boost: value = (value + 0.13) ^ 2.2 + 1. This (further aggravated by 2nd boost) further causes integer overflow.
+2) Standard (used by many other attributes) boost: value = 16 + (value - 16) ^ 1.2.
+It was discussed at https://champman0102.net/viewtopic.php?t=2609
+Approach of that old patch is to cap the final value (which can be between 0 and 480) with 75. Thus, for example, two players with same intrinsic of 80 and CA of 190 vs 110 will have same final value of 75, while non-capped values are 262 vs 87.
+This PositioningMarkingRemoveMegaBoost patch uses different approach - it simply removes the "mega" boost.
+For the abovementioned example two players will have values of 47 vs 30, which makes sense.
+This idea was already proposed earlier by MadScientist.
+
+Benchmarking has been done for 4 game versions:
+1) Original (no patch for positioning and marking, integers overflow there).
+2) Patched with MarkingAndPositioningClampTo75 (positioining capped to 75, marking not (bug of the patch)).
+3) Patched with MarkingAndPositioningClampTo75 + MarkingCap75Repatch (positioining and marking both capped to 75).
+4) Patched with PositioningMarkingRemoveMegaBoost.
+
+Benchmarking was done via CM Tactics Benchmark tool using the save file bundled with it (PAS Giannina, Greek league). Same custom tactic was used for all tests.
+Most important part ot the tactics here is using man marking for DCs. Each test simulated 100 seasons and aggregated their results.
+In each test the Marking intrinsics of all the DC players of PAS Giannina have been edited to 0, 60 and 120.
+
+The results are (averages over 100 seasons):
+Name                              For    Against Points Comment
+dc_marking_0_orig                 52.29  29.61   51.04
+dc_marking_60_orig                51.31  23.61   56.15
+dc_marking_120_orig               52.79  33.72   49.09  Conceded more goals than with much worse attribute. It's the outcome of integer overflow.
+dc_marking_0_cap75                52.28  28.36   52.49
+dc_marking_60_cap75               51.46  23.28   55.83
+dc_marking_120_cap75              51.99  32.47   49.49  Conceded more goals than with much worse attribute. It proves that integer overflow was not properly fixed.
+dc_marking_0_cap75repatch         50.87  28.55   51.45
+dc_marking_60_cap75repatch        50.52  22.84   56.07
+dc_marking_120_cap75repatch       51.11  21.85   57.43  Conceded fewer goals than with worse attribute. It indicates that integer overflow has been fixed.
+dc_marking_0_removemegaboost      49.01  26.31   51.75
+dc_marking_60_removemegaboost     48.47  23.39   54.37
+dc_marking_120_removemegaboost    48.07  21.93   55.66  The better the attribute - the less conceded goals. It proves that there is no bug.
+dc_mark_0_pos_0_removemegaboost   48.42  24.78   53.62
+dc_mark_0_pos_60_removemegaboost  50.42  21.43   57.25
+dc_mark_0_pos_120_removemegaboost 50.56  20.04   58.07  Similar bug-free proof for Positioning attribute.
+
+Tactics and benchmark results are uploaded here.
+
+Patch can be applied either on original game or on MarkingAndPositioningClampTo75 patch.

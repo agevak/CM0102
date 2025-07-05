@@ -1,0 +1,16 @@
+Name;For;Ag;Pts;Pld;Won;Drn;Lst
+dc_marking_0_orig;52.29;29.61;51.04;26;15.22;5.38;5.4
+dc_marking_60_orig;51.31;23.61;56.15;26;17.02;5.09;3.89
+dc_marking_120_orig;52.79;33.72;49.09;26;14.42;5.83;5.75
+dc_marking_0_cap75;52.28;28.36;52.49;26;15.73;5.3;4.97
+dc_marking_60_cap75;51.4625;23.275;55.825;26;16.9875;4.8625;4.15
+dc_marking_120_cap75;51.99;32.47;49.49;26;14.55;5.84;5.61
+dc_marking_0_cap75repatch;50.87;28.55;51.45;26;15.44;5.13;5.43
+dc_marking_60_cap75repatch;50.52;22.84;56.07;26;16.83;5.58;3.59
+dc_marking_120_cap75repatch;51.11;21.85;57.43;26;17.51;4.9;3.59
+dc_marking_0_removemegaboost;49.01;26.31;51.75;26;15.28;5.91;4.81
+dc_marking_60_removemegaboost;48.47;23.39;54.37;26;16.35;5.32;4.33
+dc_marking_120_removemegaboost;48.07;21.93;55.66;26;16.71;5.53;3.76
+dc_mark_0_pos_0_removemegaboost;48.42;24.78;53.62;26;16;5.62;4.38
+dc_mark_0_pos_60_removemegaboost;50.42;21.43;57.25;26;17.43;4.96;3.61
+dc_mark_0_pos_120_removemegaboost;50.56;20.04;58.07;26;17.66;5.09;3.25

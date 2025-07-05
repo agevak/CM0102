@@ -1,0 +1,1 @@
+Disables CA changes and training. So, player attributes never change. Usefull for benchmarking.

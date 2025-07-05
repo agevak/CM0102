@@ -1,0 +1,86 @@
+Iraklis 1642 66A	6A 06
+Kampaniakos 436 1B4	B4 01
+PAS Giannina 1444 5A4	A4 05
+Chania 1756 6DC		DC 06
+Makedonikos (N) 1416 588 88 05
+
+--- Go on holiday of called with "-load" argument ---
+
+81C06A
+before:
+add esp,00000F08
+ret
+after:
+call 00603730
+nop
+ret
+
+00603730
+before:
+<likely not a code>
+after:
+pushad
+mov ecx,[00B63C98]
+push 00
+push 01
+call 005FD2F0
+popad
+ret 0F08
+
+--- Stop on 31 May ---
+
+00603718 (new function which checks if 31 May and stops if so)
+before:
+<likely not a code>
+after:
+push eax
+mov ax,0096
+cmp [00AE2C90],ax
+jne 0060372B
+call 00603688      (called on 31 May)
+pop eax
+ret
+
+006B5CD7 (calls 00603718)
+before (no "enable your potential to grow"):
+ret
+before (with "enable your potential to grow"):
+call 00602D48
+after:
+call 00603718
+
+00603688
+New function.
+
+-- Unknown ---
+
+004033FE
+before:
+lea ecx,[esp+0000011C]
+after:
+jmp 00403454
+
+0054489B
+before:
+cmp dword ptr [eax+ecx*4],00
+after:
+4x nop
+
+00946F66 (called during loading .sav)
+before:
+...
+after:
+movzx eax,word ptr [ebp-02]
+different offsets
+
+
+
+--- No manager sacking
+Manager (both AI and human) sacking: 00690928
+function 00690890
+caller 0069B880 (function 0069B790)
+caller of caller 0069B6C8 (function 0069B650)
+decider 0069B6AC:
+jne 0069B6BC
+patch to:
+nop

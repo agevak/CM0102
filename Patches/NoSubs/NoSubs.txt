@@ -1,0 +1,1 @@
+No substitutes. Works only during new game generation.

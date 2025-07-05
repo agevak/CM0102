@@ -1,0 +1,4 @@
+Old patch MarkingAndPositioningClampTo75 which was designed to fix 2 major bugs in the original game: Positioning and Marking in match values calculation integer overflow.
+Unfortunately the patch itself contains a bug. Specifically the fix designed for Marking is applied by mistake to Off The Ball.
+This new patch MarkingCap75Repatch fixes the issue. It can must applied after MarkingAndPositioningClampTo75.patch.
+More technical details can be found at https://champman0102.net/viewtopic.php?t=2609&start=75

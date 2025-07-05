@@ -1,0 +1,1 @@
+Remove pause between matches. Makes "go on holiday" (and game in general) work much faster.

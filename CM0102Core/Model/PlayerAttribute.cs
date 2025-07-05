@@ -68,7 +68,6 @@ public static class PlayerAttributeExtensions
             PlayerAttribute.Reflexes, PlayerAttribute.Tackling, PlayerAttribute.ThrowIns, PlayerAttribute.Vision
         };
         public static readonly bool[] IS_CA_DEPENDENT_ARRAY;
-        private static readonly Tuple<float, float>[] NORM_BOUNDS;
         public static readonly int[] NORM_MAX_IN_MATCH_VALUE = new int[Enum.GetValues(typeof(PlayerAttribute)).Length];
 
         static PlayerAttributeExtensions()
@@ -79,7 +78,7 @@ public static class PlayerAttributeExtensions
 
             // Initialize normalization bounds.
             foreach (PlayerAttribute attribute in Enum.GetValues(typeof(PlayerAttribute))) NORM_MAX_IN_MATCH_VALUE[(int)attribute] = 20;
-            NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.Anticipation] = 14;
+            /*NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.Anticipation] = 14;
             NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.Crossing] = 30;
             NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.Decisions] = 30;
             NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.Dribbling] = 30;
@@ -96,17 +95,7 @@ public static class PlayerAttributeExtensions
             NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.Reflexes] = 25;
             NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.Tackling] = 30;
             NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.ThrowIns] = 30;
-            NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.Vision] = 30;
-            NORM_BOUNDS = new Tuple<float, float>[IS_CA_DEPENDENT_ARRAY.Length];
-            for (int i = 0; i < IS_CA_DEPENDENT_ARRAY.Length; i++)
-                if (IS_CA_DEPENDENT_ARRAY[i])
-                {
-                    PlayerAttribute a = (PlayerAttribute)i;
-                    float minV = a.GetInMatchValue(-128, 1);
-                    float maxV = NORM_MAX_IN_MATCH_VALUE[i];
-                    NORM_BOUNDS[i] = new Tuple<float, float>(minV, maxV);
-                }
-                else NORM_BOUNDS[i] = new Tuple<float, float>(1, 20);
+            NORM_MAX_IN_MATCH_VALUE[(int)PlayerAttribute.Vision] = 30;*/
         }
 
         public static string ToString(int attribute) => attribute >= 0 ? ((PlayerAttribute)attribute).ToString() : "All";
@@ -209,9 +198,8 @@ public static class PlayerAttributeExtensions
         {
             if (!a.IsCaDependent()) return intrinsic;
             float v = a.GetCaDepInMatchValue(intrinsic, ability, staff, player);
-            float l = NORM_BOUNDS[(int)a].Item1, r = NORM_BOUNDS[(int)a].Item2;
-            v = 1 + 19 * (v - l) / (r - l);
-            return Math.Max(1, v);
+            //v = 1 + v * 19f / NORM_MAX_IN_MATCH_VALUE[(int)a];
+            return v;
         }
         public static float GetInMatchValue(this PlayerAttribute a, TStaff staff, TPlayer player) => a.GetInMatchValue(a.GetIntrinsic(staff, player), player.CurrentAbility, staff, player);
         public static float GetInMatchValue(this PlayerAttribute a, sbyte intrinsic, int ability, TStaff staff = null, TPlayer player = null)

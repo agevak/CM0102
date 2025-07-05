@@ -7,19 +7,19 @@ namespace CM.Model
         protected const char DELIMITER = ';';
 
         public int Seasons { get; set; }
-        public double Scored { get; set; }
-        public double Conceded { get; set; }
-        public double Points { get; set; }
-        public double Place { get; set; }
-        public double GoalDiff { get => Scored - Conceded; }
+        public float Scored { get; set; }
+        public float Conceded { get; set; }
+        public float Points { get; set; }
+        public float Place { get; set; }
+        public float GoalDiff { get => Scored - Conceded; }
 
         protected void LoadFromString(string[] tokens, int startIndex)
         {
             Seasons = int.Parse(tokens[startIndex]);
-            Scored = double.Parse(tokens[startIndex + 1].Replace(",", "."), CultureInfo.InvariantCulture);
-            Conceded = double.Parse(tokens[startIndex + 2].Replace(",", "."), CultureInfo.InvariantCulture);
-            Points = double.Parse(tokens[startIndex + 3].Replace(",", "."), CultureInfo.InvariantCulture);
-            Place = double.Parse(tokens[startIndex + 4].Replace(",", "."), CultureInfo.InvariantCulture);
+            Scored = float.Parse(tokens[startIndex + 1].Replace(",", "."), CultureInfo.InvariantCulture);
+            Conceded = float.Parse(tokens[startIndex + 2].Replace(",", "."), CultureInfo.InvariantCulture);
+            Points = float.Parse(tokens[startIndex + 3].Replace(",", "."), CultureInfo.InvariantCulture);
+            Place = float.Parse(tokens[startIndex + 4].Replace(",", "."), CultureInfo.InvariantCulture);
         }
 
         protected BaseBenchmarkerRecord() { }

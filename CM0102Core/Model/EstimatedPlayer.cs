@@ -15,120 +15,146 @@ namespace CM.Model
 
         static EstimatedPlayer()
         {
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.GK] = 106f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DC] = 120f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DL] = 135f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DMC] = 140f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DML] = 140f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.MC] = 140f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.ML] = 100f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.AMC] = 140f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.AML] = 100f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.FC] = 150f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.FL] = 100f;
+            foreach (PlayerPosition position in Enum.GetValues(typeof(PlayerPosition))) POSITION_PRE_NORM_MAX_RATING[(int)position] = 100f;
+            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DL] = 115f;
+            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DML] = 115f;
+            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.MC] = 115f;
+            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.ML] = 115f;
+            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.AMC] = 115f;
+            //POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.AML] = 100f;
+            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.FC] = 130f;
+            //POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.FL] = 100f;
 
             // GK.
-            WEIGHTS[(int)PlayerPosition.GK, (int)PlayerAttribute.Agility] = 0.064f;
-            WEIGHTS[(int)PlayerPosition.GK, (int)PlayerAttribute.Handling] = 0.3325f;
-            WEIGHTS[(int)PlayerPosition.GK, (int)PlayerAttribute.Reflexes] = 0.12825f;
-            // Reflexes limit.
+            WEIGHTS[(int)PlayerPosition.GK, (int)PlayerAttribute.Agility] = 0.069f;
+            WEIGHTS[(int)PlayerPosition.GK, (int)PlayerAttribute.Handling] = 0.159f;
+            WEIGHTS[(int)PlayerPosition.GK, (int)PlayerAttribute.Reflexes] = 0.060f;
+            // Reflexes stops at ~19.
 
             // DC.
             WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Aggression] = 0.024f;
-            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Jumping] = 0.031f;
-            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Marking] = 0.1935f;
-            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Pace] = 0.054f;
-            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Passing] = 0.101f;
-            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Positioning] = 0.289f;
-            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.WorkRate] = 0.047f;
-            // Marking scale.
+            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Jumping] = 0.027f;
+            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Marking] = 0.115f;
+            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Pace] = 0.019f;
+            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Passing] = 0.031f;
+            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Positioning] = 0.114f;
+            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.Teamwork] = 0.040f;
+            WEIGHTS[(int)PlayerPosition.DC, (int)PlayerAttribute.WorkRate] = 0.022f;
+            // Marking slows down a lot at ~9.
+            // Tackling seems to have small effect, but it starts only at very high values (> 30).
 
             // DL.
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Aggression] = 0.020f;
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Dribbling] = 0.227f;
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Jumping] = 0.067f;
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.RightFoot] = 0.092f;
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Movement] = 0.067f;
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Pace] = 0.056f;
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Passing] = 0.1824f;
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Positioning] = 0.4237f;
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Stamina] = 0.084f;
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Teamwork] = 0.105f; // Big change at ~10.
-            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Technique] = 0.175f;
-            // Dribbling scale.
-            // Movement limit.
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Aggression] = 0.014f;
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Dribbling] = 0.143f; // At 20.
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Jumping] = 0.056f;
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.RightFoot] = 0.060f;
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Movement] = 0.055f;
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Pace] = 0.029f;
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Passing] = 0.072f;
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Positioning] = 0.195f;
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Stamina] = 0.048f;
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Teamwork] = 0.098f; // Big change at ~10.
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Technique] = 0.170f;
+            WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.WorkRate] = 0.038f;
+            // Dribbling scale accelerate up to ~20, then simmetrical brake.
+            // Movement limit at ~30.
 
             // DMC.
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Aggression] = 0.074f;
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Dribbling] = 0.1013f;
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Movement] = 0.1022f;
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Pace] = 0.058f;
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Passing] = 0.2223f;
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Positioning] = 0.456f;
-            //WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Stamina] = 0.033f; // Make small weight just as common sense.
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Tackling] = 0.1018f;
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Technique] = 0.0625f;
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Vision] = 0.1404f;
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.WorkRate] = 0.10f;
-            // Dribbling scale.
-            // Movement scale and limit.
-            // Vision overflow.
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Aggression] = 0.030f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Dribbling] = 0.037f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Movement] = 0.057f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Pace] = 0.041f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Passing] = 0.087f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Positioning] = 0.200f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Stamina] = 0.017f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Teamwork] = 0.018f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Tackling] = 0.046f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Technique] = 0.047f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Vision] = 0.90f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.WorkRate] = 0.078f;
+            // Dribbling scale has acceleration for Roda, but that's not huge and attribute is minor anyways.
+            // Movement stops at ~30.
+            // Movement began at ~15 for Roda. Ignored because minor anyways.
+            // Vision overflow at ~16.
 
             // DML.
             WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Aggression] = 0.020f;
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Dribbling] = 0.2407f;
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Jumping] = 0.062f;
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.RightFoot] = 0.067f;
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Movement] = 0.1397f;
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Pace] = 0.063f;
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Passing] = 0.1463f;
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Positioning] = 0.211f * 19.0f / 10.0f;
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Stamina] = 0.07f;
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Teamwork] = 0.115f; // Big change at ~10.
-            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Technique] = 0.17f;
-            // Dribbling scale.
-            // Movement limit.
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Dribbling] = 0.141f;
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Jumping] = 0.052f;
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.RightFoot] = 0.077f;
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Movement] = 0.077f;
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Pace] = 0.029f;
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Passing] = 0.073f;
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Positioning] = 0.182f;
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Stamina] = 0.053f;
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Teamwork] = 0.112f; // Big change at ~10.
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Technique] = 0.168f;
+            WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.WorkRate] = 0.035f;
+            // TODO: Dribbling scale.
+            // Movement limit at ~30.
 
             // MC.
-            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Dribbling] = 0.2432f;
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Dribbling] = 0.159f;
             WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Jumping] = 0.065f; // Starts mostly at ~15.
-            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Movement] = 0.2246f;
-            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Pace] = 0.056f;
-            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Passing] = 0.1425f;
-            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Positioning] = 0.285f;
-            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Stamina] = 0.071f;
-            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Technique] = 0.183f;
-            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.WorkRate] = 0.075f;
-            // Dribbling scale.
-            // Movement limit.
-            // Passing scale.
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Movement] = 0.154f;
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Pace] = 0.039f;
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Passing] = 0.064f;
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Positioning] = 0.117f;
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Stamina] = 0.080f;
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Teamwork] = 0.013f;
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Technique] = 0.187f;
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.WorkRate] = 0.055f;
+            // TODO: Dribbling scale.
+            // TODO: Movement limit. Assumed at ~30, but not proved.
+            // TODO: Passing scale.
+
+            // ML.
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Aggression] = 0.018f;
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Dribbling] = 0.131f;
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.RightFoot] = 0.077f;
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Movement] = 0.249f;
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Pace] = 0.012f;
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Passing] = 0.072f;
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Stamina] = 0.068f;
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Teamwork] = 0.099f;
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Technique] = 0.158f;
+            WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.WorkRate] = 0.036f;
+            // Dribbling scale is close to linear up to ~30-35, then slows down a lot.
+            // Movement limit at ~30.
 
             // AMC.
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Crossing] = 0.100f;
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Dribbling] = 0.2837f;
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Jumping] = 0.053f; // Starts mostly at ~15.
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Movement] = 0.204f;
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Pace] = 0.058f;
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Passing] = 0.1691f;
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Positioning] = 0.3154f;
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Stamina] = 0.095f;
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Technique] = 0.198f;
-            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.WorkRate] = 0.107f;
-            // Dribbling scale.
-            // Movement limit.
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Crossing] = 0.025f;
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Dribbling] = 0.193f;
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Jumping] = 0.045f; // Starts mostly at ~15.
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Movement] = 0.155f;
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Pace] = 0.046f;
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Passing] = 0.067f;
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Positioning] = 0.124f;
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Stamina] = 0.079f;
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Teamwork] = 0.022f;
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Technique] = 0.203f;
+            WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.WorkRate] = 0.078f;
+            // TODO: Dribbling scale.
+            // Movement limit at ~30 (seems to be a bit more than 30).
 
             // FC.
-            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Dribbling] = 0.1343f;
-            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Heading] = 0.07125f;
-            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Jumping] = 0.113f; // Starts at 15
-            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Movement] = 0.2727f;
-            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Pace] = 0.048f;
-            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Passing] = 0.16986f;
-            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Positioning] = 0.2318f;
-            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Stamina] = 0.093f;
-            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Technique] = 0.147f;
-            // Dribbling scale.
-            // Movement limit.
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Dribbling] = 0.080f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Heading] = 0.029f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Jumping] = 0.111f; // Starts at 15.
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Movement] = 0.177f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Pace] = 0.030f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Passing] = 0.063f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Positioning] = 0.092f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Stamina] = 0.083f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Teamwork] = 0.023f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Technique] = 0.141f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.WorkRate] = 0.040f;
+            // TODO: Dribbling scale / limit. Close to linear, but almost stops after ~35.
+            // TODO: Movement scale and limit. Limit at >30.
+
+            // For all outfield positions:
+            // Tackling seems to help if >= ~30.
+            // Vision seems to help below overflow threshold ~14.
 
             // Populate manual weights.
 
@@ -157,25 +183,19 @@ namespace CM.Model
         public string NationShortName { get; set; }
         public string ClubShortName {  get; set; }
         public int Price { get; set; }
-        public float[] RatingByPosition { get; set; } = new float[Enum.GetValues(typeof(PlayerPosition)).Length];
-        public float[] PotentialRatingByPosition { get; set; } = new float[Enum.GetValues(typeof(PlayerPosition)).Length];
         public HashSet<PlayerPosition> ProperPositions { get; set; } = new HashSet<PlayerPosition>();
-        public float BestRating { get; set; } = -1;
-        public float BestPotentialRating { get; set; } = -1;
-        public float BestRatingAtProperPosition { get; set; } = -1;
-        public float BestPotentialRatingAtProperPosition { get; set; } = -1;
-        public PlayerPosition BestRatedPosition { get; set; }
-        public PlayerPosition BestPotentialRatedPosition { get; set; }
-        public PlayerPosition BestRatedProperPosition { get; set; }
-        public PlayerPosition BestPotentialRatedProperPosition { get; set; }
-        public PlayerPosition AssignedPosition { get; set; }
-        public PlayerPosition AssignedPotentialPosition { get; set; }
-        public float AssignedPositionRating { get => RatingByPosition[(int)AssignedPosition]; }
-        public float AssignedPositionPotentialRating { get => PotentialRatingByPosition[(int)AssignedPotentialPosition]; }
+        public float[][] RatingByPosition { get; set; } = new float[2][] { new float[Enum.GetValues(typeof(PlayerPosition)).Length], new float[Enum.GetValues(typeof(PlayerPosition)).Length] };
+        public float[] BestRating { get; set; } = new float[] { -1, -1 };
+        public float[] BestRatingAtProperPosition { get; set; } = new float[] { -1, -1 };
+        public PlayerPosition[] BestRatedPosition { get; set; } = new PlayerPosition[2];
+        public PlayerPosition[] BestRatedProperPosition { get; set; } = new PlayerPosition[2];
+        public PlayerPosition[] AssignedPosition { get; set; } = new PlayerPosition[2];
+        public float[] AssignedPositionRating { get => new float[] { RatingByPosition[0][(int)AssignedPosition[0]], RatingByPosition[1][(int)AssignedPosition[1]]  }; }
 
         public EstimatedPlayer() { }
         public EstimatedPlayer(TStaff staff, TPlayer player, IList<TContract> contracts)
         {
+            if (contracts == null) contracts = new List<TContract>();
             Staff = staff;
             Player = player;
             Contracts = contracts;
@@ -201,13 +221,18 @@ namespace CM.Model
                     float rating = 0, weigthSum = 0;
                     foreach (int attributeIndex in NON_ZERO_WEIGHT_ATTRIBUTES[(int)position])
                     {
+
                         PlayerAttribute attribute = (PlayerAttribute)attributeIndex;
                         float weight = WEIGHTS[(int)position, attributeIndex];
                         weigthSum += weight;
                         sbyte intr = attribute.GetIntrinsic(Staff, Player);
-                        int ability = isPotential == 0 ? Player.CurrentAbility : Player.PotentialAbility;
+                        int ability = (isPotential == 1 && Staff.YearOfBirth <= 25) ? Math.Max(Player.CurrentAbility, Player.PotentialAbility - 15) : Player.CurrentAbility;
                         float value = attribute.IsCaDependent() ? attribute.GetInMatchValue(intr, ability, Staff, Player) : intr;
                         bool handled = false;
+
+                        if (isPotential == 0 && (/*Staff.ID == 410 ||*/ Staff.ID == 543) && position == PlayerPosition.DC && attribute == PlayerAttribute.Positioning)
+                            ;
+
                         if (attribute == PlayerAttribute.Jumping)
                         {
                             if (position == PlayerPosition.FC)
@@ -256,25 +281,63 @@ namespace CM.Model
                             if (position.IsWinger())
                                 value = intr = Math.Max(Player.LeftSide >= 15 ? Player.LeftFoot : Player.RightFoot, Player.RightSide >= 15 ? Player.RightSide : Player.LeftFoot);
                         }
+                        else if (attribute == PlayerAttribute.Reflexes)
+                        {
+                            // Stops at ~19.
+                            rating += weight * Math.Min(19.0f, value) / 19.0f;
+                            handled = true;
+                        }
+                        else if (attribute == PlayerAttribute.Marking)
+                        {
+                            // Slows down a lot ~9. Stored weight is at 19. 2/3 of it spends at 0..9.
+                            rating += Math.Min(9, value) / 9f * weight * 2f / 3f;
+                            if (value > 9) rating += (Math.Min(19, value) - 9) / 10f * weight / 3f;
+                            if (value > 19) rating += (Math.Min(30, value) - 19) / 11f * weight / 5f;
+                            if (value > 30) rating += (value - 30) / 30f * weight / 5f;
+                            handled = true;
+                        }
+                        else if (attribute == PlayerAttribute.Dribbling && position == PlayerPosition.DL)
+                        {
+                            // Accelerate up to ~20, then simmetrical brake.
+                            if (value <= 20) rating += weight * value * value / 20.0f / 20.0f;
+                            else
+                            {
+                                value = Math.Min(40, value);
+                                rating += 2.0f * weight - weight * (40.0f - value) * (40.0f - value) / 20.0f / 20.0f;
+                            }
+                            handled = true;
+                        }
+                        else if (attribute == PlayerAttribute.Movement) // For DL, DML, DMC, ML, AMC.
+                        {
+                            // Stops at ~30.
+                            rating += weight * Math.Min(30.0f, value) / 30.0f;
+                            handled = true;
+                        }
+                        else if (attribute == PlayerAttribute.Vision)
+                        {
+                            // Overflow at ~14. TODO: make patch.
+                            rating += weight * Math.Min(14.0f, value) / 14.0f;
+                            handled = true;
+                        }
                         if (!handled)
                         {
-                            if (attribute.IsCaDependent()) rating += weight * value;
+                            if (attribute.IsCaDependent()) rating += weight * value / 19.0f;
                             else rating += weight * (value - 1.0f) / 19.0f;
                         }
                     }
                     if (weigthSum > 0) rating /= weigthSum;
                     rating *= POSITION_PRE_NORM_MAX_RATING[(int)position];
 
-                    RatingByPosition[(int)position] = rating;
-                    if (rating > BestRating)
+                    RatingByPosition[isPotential][(int)position] = rating;
+                    if (rating > BestRating[isPotential])
                     {
-                        BestRating = rating;
-                        BestRatedPosition = position;
+                        BestRating[isPotential] = rating;
+                        BestRatedPosition[isPotential] = position;
                     }
-                    if (position.IsPlayerProperForPosition(Player) && rating > BestRatingAtProperPosition)
+                    if (position.IsPlayerProperForPosition(Player) && rating > BestRatingAtProperPosition[isPotential])
                     {
-                        BestRatingAtProperPosition = rating;
-                        BestRatedProperPosition = position;
+                        BestRatingAtProperPosition[isPotential] = rating;
+                        BestRatedProperPosition[isPotential] = position;
                     }
                 }
             }

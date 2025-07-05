@@ -181,8 +181,10 @@ public static class PlayerAttributeExtensions
         {
             switch (valueType)
             {
-                case AttributeValueType.Normalized: return a.GetFloatNormValue(a.GetIntrinsic(staff, player), player.CurrentAbility, staff, player);
-                case AttributeValueType.PotentialNormalized: return a.GetFloatNormValue(a.GetIntrinsic(staff, player), player.PotentialAbility, staff, player);
+                //case AttributeValueType.Normalized: return a.GetFloatNormValue(a.GetIntrinsic(staff, player), player.CurrentAbility, staff, player);
+                //case AttributeValueType.PotentialNormalized: return a.GetFloatNormValue(a.GetIntrinsic(staff, player), player.PotentialAbility, staff, player);
+                case AttributeValueType.Normalized: return a.GetInMatchValue(a.GetIntrinsic(staff, player), player.CurrentAbility, staff, player);
+                case AttributeValueType.PotentialNormalized: return a.GetInMatchValue(a.GetIntrinsic(staff, player), player.PotentialAbility, staff, player);
                 default: return a.GetIntrinsic(staff, player);
             }
         }

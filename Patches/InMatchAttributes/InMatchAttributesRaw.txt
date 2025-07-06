@@ -1,0 +1,6 @@
+﻿Shows raw in-match attribute, rounded to nearest integer.
+Values are >= 0, not limited to 20.
+
+Prerequisites: ColoredAttributes.
+
+TODO: Search is broken. If min attribute value filter is set, players with attribute value > 20 will not be found.

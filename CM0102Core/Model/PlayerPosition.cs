@@ -27,21 +27,21 @@ namespace CM.Model
                 case PlayerPosition.GK:
                     return player.Goalkeeper >= 20;
                 case PlayerPosition.DC:
-                    return player.Defender >= 15 && player.Central >= 15;
+                    return (player.Sweeper >= 15 || player.Defender >= 15) && player.Central >= 15;
                 case PlayerPosition.DL:
-                    return player.Defender >= 15 && Math.Max(player.LeftSide, player.RightSide) >= 15;
+                    return (player.Defender >= 15 || player.WingBack >= 15) && Math.Max(player.LeftSide, player.RightSide) >= 15;
                 case PlayerPosition.DMC:
                     return player.DefensiveMidfielder >= 15 && player.Central >= 15;
                 case PlayerPosition.DML:
-                    return ((player.DefensiveMidfielder >= 15 && player.Midfielder >= 15) || (player.WingBack >= 15)) && Math.Max(player.LeftSide, player.RightSide) >= 15;
+                    return (player.DefensiveMidfielder >= 15 || player.WingBack >= 15) && Math.Max(player.LeftSide, player.RightSide) >= 15;
                 case PlayerPosition.MC:
                     return player.Midfielder >= 15 && player.Central >= 15;
                 case PlayerPosition.ML:
                     return player.Midfielder >= 15 && Math.Max(player.LeftSide, player.RightSide) >= 15;
                 case PlayerPosition.AMC:
-                    return player.AttackingMidfielder >= 15 && player.Attacker >= 15 && player.Central >= 15;
+                    return player.AttackingMidfielder >= 15 && player.Central >= 15;
                 case PlayerPosition.AML:
-                    return ((player.AttackingMidfielder >= 15 && player.Attacker >= 15) || player.WingBack >= 15) && Math.Max(player.LeftSide, player.RightSide) >= 15;
+                    return (player.AttackingMidfielder >= 15 || player.WingBack >= 15) && Math.Max(player.LeftSide, player.RightSide) >= 15;
                 case PlayerPosition.FC:
                     return player.Attacker >= 15 && player.Central >= 15;
                 case PlayerPosition.FL:

@@ -70,7 +70,7 @@ namespace CM.Model
             WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Teamwork] = 0.018f;
             WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Tackling] = 0.046f;
             WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Technique] = 0.047f;
-            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Vision] = 0.90f;
+            WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Vision] = 0.090f;
             WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.WorkRate] = 0.078f;
             // Dribbling scale has acceleration for Roda, but that's not huge and attribute is minor anyways.
             // Movement stops at ~30.
@@ -315,6 +315,9 @@ namespace CM.Model
                         }
                         else if (attribute == PlayerAttribute.Vision)
                         {
+                            // Cap with passing.
+                            value = Math.Min(value, PlayerAttribute.Passing.GetInMatchValue(PlayerAttribute.Passing.GetIntrinsic(Staff, Player), ability, Staff, Player));
+
                             // Overflow at ~14. TODO: make patch.
                             rating += weight * Math.Min(14.0f, value) / 14.0f;
                             handled = true;

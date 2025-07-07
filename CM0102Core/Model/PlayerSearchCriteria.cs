@@ -12,7 +12,7 @@
         public Range Age { get; set; }
         public Range Ca { get; set; }
         public Range Pa { get; set; }
-        public Range WorldReputation { get; set; }
+        public Range Reputation { get; set; }
         public bool[] Positions { get; set; }
         public bool[] Sides { get; set; }
         public int RatedPosition { get; set; }
@@ -44,7 +44,7 @@
             Age = new Range(0, 99);
             Ca = new Range(0, 200);
             Pa = new Range(0, 200);
-            WorldReputation = new Range(0, 10000);
+            Reputation = new Range(0, 10000);
             Positions = new bool[8];
             Sides = new bool[3];
             RatedPosition = BEST_REGARDLESS_POSITION;

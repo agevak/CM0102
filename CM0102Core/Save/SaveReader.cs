@@ -163,9 +163,9 @@ namespace CM.Save
                 Load(full);
                 if (full) try { fs.Dispose(); } catch { }
             }
-            catch
+            catch (Exception e)
             {
-                try { fs.Dispose(); } catch { }
+                if (fs != null) try { fs.Dispose(); } catch { }
                 throw;
             }
         }
@@ -173,10 +173,7 @@ namespace CM.Save
         {
             using (BinaryReader br = new BinaryReader(stream, ENCODING, true))
             {
-                bool compressed = (br.ReadInt32() == 4);
-
-                // Save this value
-                WasCompressed = compressed;
+                WasCompressed = br.ReadInt32() == 4;
 
                 // Skip 4 bytes
                 unknownHdrBytes = br.ReadInt32();
@@ -221,10 +218,14 @@ namespace CM.Save
                 while (bufPtr < block.Size)
                 {
                     byte b = br.ReadByte();
-                    byte byteCount = (byte)(b - 128);
-                    byte actualByte = (byte)br.ReadByte();
-                    for (byte i = 0; i < byteCount; i++)
-                        block.dataBuffer[bufPtr++] = (byte)actualByte;
+                    if (b <= 128) block.dataBuffer[bufPtr++] = (byte)b;
+                    else
+                    {
+                        byte byteCount = (byte)(b - 128);
+                        byte actualByte = br.ReadByte();
+                        for (byte i = 0; i < byteCount; i++)
+                            block.dataBuffer[bufPtr++] = actualByte;
+                    }
                 }
             }
         }

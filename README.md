@@ -93,21 +93,18 @@ Output:
 
 Benchmarking works via CM .exe patched with BenchmarkMode patch using same approach as Benchmark tool.
 For each specified human tactic the tool does the following:
-	1) Injects human tactic into .sav file. So, all the matches will be played with this tactic ('go on holiday' should be setup
-	manually as required beforehand).
-	2) If AI tactics were specified, separate test is performed for each specified AI tactic.
-	3) If AI tactic is specified, injects it into .sav file. Same tactic replaces the whole AI tactics pack. So, regardless
-	of whatever tactic AI manager will choose, it will end up with the same (specified, injected) tactic.
-	If AI tactic was not specified, AI tactic pack originally stored in .sav file is used (i.e. AI tactics in the .sav file
-	remain untouched).
-	4) Plays 1 season the configured amount of times.
-	5) Prints the results.
+1) Injects human tactic into .sav file. So, all the matches will be played with this tactic ('go on holiday' should be setup manually as required beforehand).
+2) If AI tactics were specified, separate test is performed for each specified AI tactic.
+3) If AI tactic is specified, injects it into .sav file. Same tactic replaces the whole AI tactics pack. So, regardless	of whatever tactic AI manager will choose, it will end up with the same (specified, injected) tactic.
+If AI tactic was not specified, AI tactic pack originally stored in .sav file is used (i.e. AI tactics in the .sav file remain untouched).
+4) Plays 1 season the configured amount of times.
+5) Prints the results.
 Then you can save the results and export them into HTML.
 The results table shows how each human tactics performed vs each AI tactics:
-	- Average goals scored per match.
-	- Average goals conceded per match.
-	- Average points earned per match.
-	- Average league placement per season.
+- Average goals scored per match.
+- Average goals conceded per match.
+- Average points earned per match.
+- Average league placement per season.
 
 # SaveGameTacticsEditor
 Updates AI tactics in your game save. For example, if you started the game with AI tactics from ODB, but now want the game to become
@@ -127,11 +124,11 @@ The fewer staff will be in DB, the fewer will get into your save game and thus t
 2) Copy save game from step 1 to DBTruncator's 'Input\Save' folder. Only 1 .sav file must be there, so delete all the old ones if any.
 3) Optional: backup your CM's 'Data' folder.
 4) Copy CM DB from CM's 'Data' folder to 'Input\Data' folder of DBTruncator. Required files are:
-	club.dat
-	index.dat
-	nat_club.dat
-	nation.dat
-	staff.dat
+club.dat
+index.dat
+nat_club.dat
+nation.dat
+staff.dat
 5) Run DBTruncator.
 6) Copy (overwrite) generated files from DBTruncator's 'Output\Data' folder to CM's 'Data' folder.
 7) Run CM and start new game with the same country selected as at step 1. Please note that DB size must be set to 'Minimal' in CM settings.

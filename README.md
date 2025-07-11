@@ -83,9 +83,11 @@ To use custom CM executable, patch it via BenchmarkMode patch: https://github.co
 Benchmarks tactics.
 
 Input:
-	- Human tactics to test.
-	- .sav file for testing.
-	- AI tactics to play against.
+<ul>
+	<li>Human tactics to test.</li>
+	<li>.sav file for testing.</li>
+	<li>AI tactics to play against.</li>
+</ul>
 
 Output:
 

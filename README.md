@@ -38,14 +38,14 @@ Completed test will not run again as long as present in "Results\repository.csv"
 Configuration.
 Configuration parameters are stored in Benchmarker.exe.config file:
 <pre>
-  <appSettings>
-    <add key="CMFolder" value="C:\Program Files (x86)\Championship Manager 01-02" />
-    <add key="SeasonsPerTest" value="1" />
-    <add key="MaxThreads" value="1" />
-    <add key="TestTimeoutS" value="300" />
-    <add key="HideWindow" value="false" />
-    <add key="UpdateAttributesForConsistency" value="false" />
-  </appSettings>
+  &lt;appSettings&gt;
+    &lt;add key=&quot;CMFolder&quot; value=&quot;C:\Program Files (x86)\Championship Manager 01-02&quot; /&gt;
+    &lt;add key=&quot;SeasonsPerTest&quot; value=&quot;1&quot; /&gt;
+    &lt;add key=&quot;MaxThreads&quot; value=&quot;1&quot; /&gt;
+    &lt;add key=&quot;TestTimeoutS&quot; value=&quot;300&quot; /&gt;
+    &lt;add key=&quot;HideWindow&quot; value=&quot;false&quot; /&gt;
+    &lt;add key=&quot;UpdateAttributesForConsistency&quot; value=&quot;false&quot; /&gt;
+  &lt;/appSettings&gt;
 </pre>
 CMFolder - Path for CM installation.
 SeasonsPerTest - Amount of seasons to run per test.

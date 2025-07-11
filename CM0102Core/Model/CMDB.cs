@@ -19,6 +19,7 @@ namespace CM.Model
         public List<TContract> Contracts { get; set; }
         public DateTime GameDate { get; set; }
         public TClub HumanClub { get; set; }
+        public IList<EstimatedPlayer> EstimatedPlayers { get; set; }
 
         public IList<IList<TContract>> ContractsByStaffId { get; set; } = new List<IList<TContract>>();
 
@@ -26,7 +27,20 @@ namespace CM.Model
         {
             ContractsByStaffId.Clear();
             foreach (TStaff staff in Staffs) ContractsByStaffId.Add(new List<TContract>());
-            foreach (TContract contract in Contracts) if (contract.ID > 0) ContractsByStaffId[contract.ID].Add(contract);
+            foreach (TContract contract in Contracts) if (contract.ID >= 0) ContractsByStaffId[contract.ID].Add(contract);
+            EstimatedPlayers = new List<EstimatedPlayer>();
+
+            // Estimate all players.
+            EstimatedPlayers = new List<EstimatedPlayer>();
+            foreach (TStaff staff in Staffs)
+            {
+                if (staff.Player < 0 || staff.Player >= Players.Count) continue;
+                TPlayer player = Players[staff.Player];
+                EstimatedPlayer estPlayer = CreateEstimatedPlayer(staff);
+                estPlayer.Estimate();
+                EstimatedPlayers.Add(estPlayer);
+            }
+
         }
 
         public string GetCurrencyUIString(int val)

@@ -16,6 +16,64 @@ Features:
 # Benchmarker
 Benchmarks whatever .sav file you like.
 
+Simple usage.
+1) Download distribution from .
+2) Unzip distribution.
+3) Put .sav files you want to BM into "Saves" folder.
+4) Configure Benchmarker (see below).
+5) Run Benchmarker.exe.
+6) Wait until finish.
+7) View BM results in "Results" folder.
+
+Distribution cointains example configuration, .sav file and BM results for reference.
+
+Idea.
+Each .sav file is a Test. For each Test, specified amount of seasons is played (more precisely, 1 seasons several times).
+Result is stored in "Results\{TestName}.txt" file lists results for each club in human club's division in these format:
+ClubName;AmountOfSeasons;AvgScoredGoalsPerSeasons;AvgConcededGoalsPerSeason;AvgPointsPerSeason;AvgPlace
+Also, a line is added to "Results\repository.csv" file in this format:
+{TestName};AmountOfSeasons;AvgScoreGoalsPerMatch;AvgConcededGoalsPerMatch;AvgPointsPerMatch;AvgPlace
+Completed test will not run again as long as present in "Results\repository.csv".
+
+Configuration.
+Configuration parameters are stored in Benchmarker.exe.config file:
+  <appSettings>
+    <add key="CMFolder" value="C:\Program Files (x86)\Championship Manager 01-02" />
+    <add key="SeasonsPerTest" value="1" />
+    <add key="MaxThreads" value="1" />
+    <add key="TestTimeoutS" value="300" />
+    <add key="HideWindow" value="false" />
+    <add key="UpdateAttributesForConsistency" value="false" />
+  </appSettings>
+CMFolder - Path for CM installation.
+SeasonsPerTest - Amount of seasons to run per test.
+MaxThreads - Max amount of CM processes to run at the same time. Amount of CPU threads is a reasonable value.
+TestTimeoutS - Max time to wait for CM to finish season, in seconds.
+HideWindow - If to hide running CM windows ("true" of "false").
+UpdateAttributesForConsistency - If to update attributes of every player for consistency ("true" of "false"). Specifically:
+	InjuryProneness = 1;
+	Dirtiness = 1;
+	NaturalFitness = 20;
+	Consistency = 20;
+	ImportantMatches = 20;
+
+Preparing .sav files.
+Any .sav file should work, as long as:
+1) There is exactly 1 human manager.
+2) Human manager controls 1 club. Benchmarker monitors the division where that club plays.
+The more players and leagues are enabled in .sav file, the more time BM will take.
+It's recommended to BM game saves done on truncated DBs (see DBTruncator tool) or minimal DBs, otherwise BM will be very slow.
+
+How to abort testing / fix stuck testing.
+1) Try to abort Benchmarker gracefully. Press [Enter].
+2) If not finished gracefully, terminate process via Ctrl-C / close window / kill process.
+3) If not finished gracefully, to cleanup running CM instances, run this command:
+	taskkill.exe /F /IM cm0102_bm.exe
+
+Using custom cm0102.exe.
+CM executable used for benchmarking is not the one from CM installation, but "Template\cm0102_bm.exe".
+To use custom CM executable, patch it via BenchmarkMode patch: https://github.com/agevak/CM0102/tree/main/Patches/BenchmarkMode
+
 # TacticsBenchmarker
 Benchmarks tactics.
 

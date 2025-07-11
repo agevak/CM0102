@@ -118,6 +118,11 @@ namespace CM
             IList<TStaff> extraDivisionStuff = staff.Where(x => !divisionClubIds.Contains(x.ClubJob) && (x.Nation == humanClub.Nation & x.ID % 100 < 5)).ToList();
             Console.WriteLine($"Adding extra {extraDivisionStuff.Count} staff ({extraDivisionStuff.Where(x => x.Player >= 0).Count()} players).");
             List<TStaff> remainingStaff = divisionStaff.Concat(extraDivisionStuff).ToList();
+
+            // TODO
+            /*var list = staff.Where(x => x.ClubJob < 0 && x.Player >= 0).ToList();
+            remainingStaff = staff.ToList();*/
+
             Console.WriteLine($"Total kept staff: {remainingStaff.Count} ({remainingStaff.Where(x => x.Player >= 0).Count()} players).");
 
             // Reassing record IDs.
@@ -131,7 +136,10 @@ namespace CM
                 idMapping[curStaff.ID] = newId;
                 nonPlayerIdMapping[curStaff.NonPlayer] = playerIdMapping[curStaff.Player] = staffPreferencesIdMapping[curStaff.StaffPreferences] = -1;
                 curStaff.ID = newId;
-                curStaff.IntApps = curStaff.IntGoals = 0; // Clear internation caps, so the game will decide itself if to load this staff or not.
+
+                // TODO
+                //curStaff.IntApps = curStaff.IntGoals = 0; // Clear internation caps, so the game will decide itself if to load this staff or not.
+                if (curStaff.ClubJob < 0 && curStaff.IntApps <= 0) curStaff.IntApps = 1; // Force loading many free agents.
             }
             nonPlayerIdMapping.Remove(-1);
             playerIdMapping.Remove(-1);

@@ -119,7 +119,7 @@ It removes staff (both players and non-players), keeping only the staff from the
 from your league's nation (otherwise CM will crash with 'Database.cpp' error).
 The fewer staff will be in DB, the fewer will get into your save game and thus the game will run faster (critical for benchmarking).
 
-# Usage:
+Usage.
 1) Run CM and start new game in whatever country you like (choose only 1 country). Save game.
 2) Copy save game from step 1 to DBTruncator's 'Input\Save' folder. Only 1 .sav file must be there, so delete all the old ones if any.
 3) Optional: backup your CM's 'Data' folder.

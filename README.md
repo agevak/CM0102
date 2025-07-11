@@ -47,6 +47,7 @@ Configuration parameters are stored in Benchmarker.exe.config file:
     &lt;add key=&quot;UpdateAttributesForConsistency&quot; value=&quot;false&quot; /&gt;
   &lt;/appSettings&gt;
 </pre>
+<pre>
 CMFolder - Path for CM installation.
 SeasonsPerTest - Amount of seasons to run per test.
 MaxThreads - Max amount of CM processes to run at the same time. Amount of CPU threads is a reasonable value.
@@ -58,6 +59,7 @@ UpdateAttributesForConsistency - If to update attributes of every player for con
 	NaturalFitness = 20;
 	Consistency = 20;
 	ImportantMatches = 20;
+</pre>
 
 Preparing .sav files.
 Any .sav file should work, as long as:

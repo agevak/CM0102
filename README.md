@@ -17,7 +17,7 @@ Features:
 Benchmarks whatever .sav file you like.
 
 Simple usage.
-1) Download distribution from .
+1) Download distribution from https://github.com/agevak/CM0102/releases/download/untagged-5d0900c149d9ee80b6aa/Benchmarker_1_0_0.zip
 2) Unzip distribution.
 3) Put .sav files you want to BM into "Saves" folder.
 4) Configure Benchmarker (see below).
@@ -37,6 +37,7 @@ Completed test will not run again as long as present in "Results\repository.csv"
 
 Configuration.
 Configuration parameters are stored in Benchmarker.exe.config file:
+<pre>
   <appSettings>
     <add key="CMFolder" value="C:\Program Files (x86)\Championship Manager 01-02" />
     <add key="SeasonsPerTest" value="1" />
@@ -45,6 +46,7 @@ Configuration parameters are stored in Benchmarker.exe.config file:
     <add key="HideWindow" value="false" />
     <add key="UpdateAttributesForConsistency" value="false" />
   </appSettings>
+</pre>
 CMFolder - Path for CM installation.
 SeasonsPerTest - Amount of seasons to run per test.
 MaxThreads - Max amount of CM processes to run at the same time. Amount of CPU threads is a reasonable value.
@@ -61,6 +63,7 @@ Preparing .sav files.
 Any .sav file should work, as long as:
 1) There is exactly 1 human manager.
 2) Human manager controls 1 club. Benchmarker monitors the division where that club plays.
+"Go on holiday" must be setup as desired (e.g. if need to test tactics, mark "Use current match tactics", etc).
 The more players and leagues are enabled in .sav file, the more time BM will take.
 It's recommended to BM game saves done on truncated DBs (see DBTruncator tool) or minimal DBs, otherwise BM will be very slow.
 

@@ -90,7 +90,7 @@ namespace CM.Model
         public EstimatedPlayer CreateEstimatedPlayer(TStaff staff)
         {
             TPlayer player = Players[staff.Player];
-            return new EstimatedPlayer(staff, player, ContractsByStaffId[staff.ID])
+            return new EstimatedPlayer(staff, player, ContractsByStaffId[staff.ID], GameDate)
             {
                 ShortName = GetStaffShortName(staff),
                 FullName = GetStaffFullName(staff),

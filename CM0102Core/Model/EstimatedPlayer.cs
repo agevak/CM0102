@@ -16,13 +16,14 @@ namespace CM.Model
         static EstimatedPlayer()
         {
             foreach (PlayerPosition position in Enum.GetValues(typeof(PlayerPosition))) POSITION_PRE_NORM_MAX_RATING[(int)position] = 100f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DL] = 115f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DML] = 115f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.MC] = 115f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.ML] = 115f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.AMC] = 115f;
+            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DC] = 90f;
+            //POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DL] = 115f;
+            //POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.DML] = 115f;
+            //POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.MC] = 115f;
+            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.ML] = 95f;
+            //POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.AMC] = 115f;
             //POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.AML] = 100f;
-            POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.FC] = 130f;
+            //POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.FC] = 105f;
             //POSITION_PRE_NORM_MAX_RATING[(int)PlayerPosition.FL] = 100f;
 
             // GK.
@@ -57,7 +58,6 @@ namespace CM.Model
             WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.Technique] = 0.170f;
             WEIGHTS[(int)PlayerPosition.DL, (int)PlayerAttribute.WorkRate] = 0.038f;
             // Dribbling scale accelerate up to ~20, then simmetrical brake.
-            // Movement limit at ~30.
 
             // DMC.
             WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Aggression] = 0.030f;
@@ -73,9 +73,7 @@ namespace CM.Model
             WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.Vision] = 0.090f;
             WEIGHTS[(int)PlayerPosition.DMC, (int)PlayerAttribute.WorkRate] = 0.078f;
             // Dribbling scale has acceleration for Roda, but that's not huge and attribute is minor anyways.
-            // Movement stops at ~30.
             // Movement began at ~15 for Roda. Ignored because minor anyways.
-            // Vision overflow at ~16.
 
             // DML.
             WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Aggression] = 0.020f;
@@ -91,7 +89,6 @@ namespace CM.Model
             WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.Technique] = 0.168f;
             WEIGHTS[(int)PlayerPosition.DML, (int)PlayerAttribute.WorkRate] = 0.035f;
             // TODO: Dribbling scale.
-            // Movement limit at ~30.
 
             // MC.
             WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Dribbling] = 0.159f;
@@ -103,9 +100,9 @@ namespace CM.Model
             WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Stamina] = 0.080f;
             WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Teamwork] = 0.013f;
             WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Technique] = 0.187f;
+            WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.Vision] = 0.035f; // TODO: guess
             WEIGHTS[(int)PlayerPosition.MC, (int)PlayerAttribute.WorkRate] = 0.055f;
             // TODO: Dribbling scale.
-            // TODO: Movement limit. Assumed at ~30, but not proved.
             // TODO: Passing scale.
 
             // ML.
@@ -119,8 +116,6 @@ namespace CM.Model
             WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Teamwork] = 0.099f;
             WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.Technique] = 0.158f;
             WEIGHTS[(int)PlayerPosition.ML, (int)PlayerAttribute.WorkRate] = 0.036f;
-            // Dribbling scale is close to linear up to ~30-35, then slows down a lot.
-            // Movement limit at ~30.
 
             // AMC.
             WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Crossing] = 0.025f;
@@ -135,10 +130,10 @@ namespace CM.Model
             WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.Technique] = 0.203f;
             WEIGHTS[(int)PlayerPosition.AMC, (int)PlayerAttribute.WorkRate] = 0.078f;
             // TODO: Dribbling scale.
-            // Movement limit at ~30 (seems to be a bit more than 30).
 
             // FC.
             WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Dribbling] = 0.080f;
+            WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Finishing] = 0.024f;
             WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Heading] = 0.029f;
             WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Jumping] = 0.111f; // Starts at 15.
             WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Movement] = 0.177f;
@@ -149,12 +144,9 @@ namespace CM.Model
             WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Teamwork] = 0.023f;
             WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.Technique] = 0.141f;
             WEIGHTS[(int)PlayerPosition.FC, (int)PlayerAttribute.WorkRate] = 0.040f;
-            // TODO: Dribbling scale / limit. Close to linear, but almost stops after ~35.
-            // TODO: Movement scale and limit. Limit at >30.
 
             // For all outfield positions:
             // Tackling seems to help if >= ~30.
-            // Vision seems to help below overflow threshold ~14.
 
             // Populate manual weights.
 
@@ -178,6 +170,9 @@ namespace CM.Model
         public TStaff Staff { get; set; }
         public TPlayer Player { get; set; }
         public IList<TContract> Contracts { get; set; }
+        public DateTime GameDate { get; set; }
+        public TContract PrimaryContract { get; set; }
+        public bool IsContractUnprotected { get; set; }
         public string ShortName { get; set; }
         public string FullName { get; set; }
         public string NationShortName { get; set; }
@@ -189,20 +184,32 @@ namespace CM.Model
         public float[] BestRatingAtProperPosition { get; set; } = new float[] { -1, -1 };
         public PlayerPosition[] BestRatedPosition { get; set; } = new PlayerPosition[2];
         public PlayerPosition[] BestRatedProperPosition { get; set; } = new PlayerPosition[2];
-        public PlayerPosition[] AssignedPosition { get; set; } = new PlayerPosition[2];
-        public float[] AssignedPositionRating { get => new float[] { RatingByPosition[0][(int)AssignedPosition[0]], RatingByPosition[1][(int)AssignedPosition[1]]  }; }
 
         public EstimatedPlayer() { }
-        public EstimatedPlayer(TStaff staff, TPlayer player, IList<TContract> contracts)
+        public EstimatedPlayer(TStaff staff, TPlayer player, IList<TContract> contracts, DateTime gameDate)
         {
             if (contracts == null) contracts = new List<TContract>();
             Staff = staff;
             Player = player;
             Contracts = contracts;
+            GameDate = gameDate;
         }
 
         public void Estimate()
         {
+            // Determine if contract is unprotected.
+            if (Contracts.Any())
+            {
+                PrimaryContract = Contracts.FirstOrDefault(x => x.Club == Staff.ClubJob);
+                if (PrimaryContract != null)
+                {
+                    int birthDateDiffInYears = (int)((PrimaryContract.DateStarted.ToDateTime() - Staff.DateOfBirth.ToDateTime()).TotalDays / 365 + 1e-9);
+                    TimeSpan curDateDiff = GameDate - PrimaryContract.DateStarted.ToDateTime();
+                    IsContractUnprotected = (curDateDiff >= TimeSpan.FromDays(3 * 365)) || (birthDateDiffInYears >= 28 && curDateDiff >= TimeSpan.FromDays(2 * 365));
+                    IsContractUnprotected &= (PrimaryContract.ContractExpires.ToDateTime() - GameDate) <= TimeSpan.FromDays(182);
+                }
+            }
+
             // Calculate value (price).
             Price = 0;
             TContract contract = Contracts.FirstOrDefault();
@@ -221,17 +228,17 @@ namespace CM.Model
                     float rating = 0, weigthSum = 0;
                     foreach (int attributeIndex in NON_ZERO_WEIGHT_ATTRIBUTES[(int)position])
                     {
-
                         PlayerAttribute attribute = (PlayerAttribute)attributeIndex;
+
+                        //if (isPotential == 1 && (/*Staff.ID == 410 ||*/ Staff.ID == 36264) && attribute == PlayerAttribute.Positioning)
+                            //;
+
                         float weight = WEIGHTS[(int)position, attributeIndex];
                         weigthSum += weight;
                         sbyte intr = attribute.GetIntrinsic(Staff, Player);
                         int ability = (isPotential == 1 && Staff.YearOfBirth <= 25) ? Math.Max(Player.CurrentAbility, Player.PotentialAbility - 15) : Player.CurrentAbility;
                         float value = attribute.IsCaDependent() ? attribute.GetInMatchValue(intr, ability, Staff, Player) : intr;
                         bool handled = false;
-
-                        if (isPotential == 0 && (/*Staff.ID == 410 ||*/ Staff.ID == 543) && position == PlayerPosition.DC && attribute == PlayerAttribute.Positioning)
-                            ;
 
                         if (attribute == PlayerAttribute.Jumping)
                         {
@@ -307,19 +314,13 @@ namespace CM.Model
                             }
                             handled = true;
                         }
-                        else if (attribute == PlayerAttribute.Movement) // For DL, DML, DMC, ML, AMC.
-                        {
-                            // Stops at ~30.
-                            rating += weight * Math.Min(30.0f, value) / 30.0f;
-                            handled = true;
-                        }
                         else if (attribute == PlayerAttribute.Vision)
                         {
                             // Cap with passing.
                             value = Math.Min(value, PlayerAttribute.Passing.GetInMatchValue(PlayerAttribute.Passing.GetIntrinsic(Staff, Player), ability, Staff, Player));
 
                             // Overflow at ~14. TODO: make patch.
-                            rating += weight * Math.Min(14.0f, value) / 14.0f;
+                            rating += weight * Math.Min(19.0f, value) / 19.0f;
                             handled = true;
                         }
                         if (!handled)

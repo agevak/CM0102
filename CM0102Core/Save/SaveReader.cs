@@ -45,9 +45,9 @@ namespace CM.Save
                 Staffs = BlockToObjects<TStaff>("staff.dat"),
                 Players = BlockToObjects<TPlayer>("player.dat"),
                 Contracts = BlockToObjects<TContract>("contract.dat", true),
-                GameDate = GetCurrentGameDate(),
-                HumanClub = GetHumanClub()
+                GameDate = GetCurrentGameDate()
             };
+            db.HumanClub = db.Clubs.FirstOrDefault(x => SaveReader.GetString(x.ShortName) == GetHumanClubName());
             db.Initialize();
             return db;
         }

@@ -36,6 +36,9 @@
             this.pnlOutputGrid = new System.Windows.Forms.Panel();
             this.webGrid = new System.Windows.Forms.WebBrowser();
             this.pnlOutputControl = new System.Windows.Forms.Panel();
+            this.rdbHumanTacticsInCols = new System.Windows.Forms.RadioButton();
+            this.rdbHumanTacticsInRows = new System.Windows.Forms.RadioButton();
+            this.lblHumanTacticsInRowsCaption = new System.Windows.Forms.Label();
             this.btnOutputExportExcel = new System.Windows.Forms.Button();
             this.btnOutputExportHtml = new System.Windows.Forms.Button();
             this.btnOutputSave = new System.Windows.Forms.Button();
@@ -92,6 +95,7 @@
             this.dlgTacticFiles = new System.Windows.Forms.OpenFileDialog();
             this.dlgBmSavFilename = new System.Windows.Forms.OpenFileDialog();
             this.dlgCmFolder = new System.Windows.Forms.FolderBrowserDialog();
+            this.chkMakePlayersAllPositioners = new System.Windows.Forms.CheckBox();
             this.pnlOutput.SuspendLayout();
             this.pnlOutputGrid.SuspendLayout();
             this.pnlOutputControl.SuspendLayout();
@@ -151,6 +155,9 @@
             // 
             // pnlOutputControl
             // 
+            this.pnlOutputControl.Controls.Add(this.rdbHumanTacticsInCols);
+            this.pnlOutputControl.Controls.Add(this.rdbHumanTacticsInRows);
+            this.pnlOutputControl.Controls.Add(this.lblHumanTacticsInRowsCaption);
             this.pnlOutputControl.Controls.Add(this.btnOutputExportExcel);
             this.pnlOutputControl.Controls.Add(this.btnOutputExportHtml);
             this.pnlOutputControl.Controls.Add(this.btnOutputSave);
@@ -164,10 +171,42 @@
             this.pnlOutputControl.Size = new System.Drawing.Size(948, 42);
             this.pnlOutputControl.TabIndex = 1;
             // 
+            // rdbHumanTacticsInCols
+            // 
+            this.rdbHumanTacticsInCols.AutoSize = true;
+            this.rdbHumanTacticsInCols.Location = new System.Drawing.Point(406, 10);
+            this.rdbHumanTacticsInCols.Name = "rdbHumanTacticsInCols";
+            this.rdbHumanTacticsInCols.Size = new System.Drawing.Size(64, 17);
+            this.rdbHumanTacticsInCols.TabIndex = 2;
+            this.rdbHumanTacticsInCols.TabStop = true;
+            this.rdbHumanTacticsInCols.Text = "columns";
+            this.rdbHumanTacticsInCols.UseVisualStyleBackColor = true;
+            // 
+            // rdbHumanTacticsInRows
+            // 
+            this.rdbHumanTacticsInRows.AutoSize = true;
+            this.rdbHumanTacticsInRows.Checked = true;
+            this.rdbHumanTacticsInRows.Location = new System.Drawing.Point(353, 10);
+            this.rdbHumanTacticsInRows.Name = "rdbHumanTacticsInRows";
+            this.rdbHumanTacticsInRows.Size = new System.Drawing.Size(47, 17);
+            this.rdbHumanTacticsInRows.TabIndex = 1;
+            this.rdbHumanTacticsInRows.TabStop = true;
+            this.rdbHumanTacticsInRows.Text = "rows";
+            this.rdbHumanTacticsInRows.UseVisualStyleBackColor = true;
+            // 
+            // lblHumanTacticsInRowsCaption
+            // 
+            this.lblHumanTacticsInRowsCaption.AutoSize = true;
+            this.lblHumanTacticsInRowsCaption.Location = new System.Drawing.Point(255, 12);
+            this.lblHumanTacticsInRowsCaption.Name = "lblHumanTacticsInRowsCaption";
+            this.lblHumanTacticsInRowsCaption.Size = new System.Drawing.Size(92, 13);
+            this.lblHumanTacticsInRowsCaption.TabIndex = 51;
+            this.lblHumanTacticsInRowsCaption.Text = "Human tactics in: ";
+            // 
             // btnOutputExportExcel
             // 
             this.btnOutputExportExcel.ImageList = this.imageList;
-            this.btnOutputExportExcel.Location = new System.Drawing.Point(586, 7);
+            this.btnOutputExportExcel.Location = new System.Drawing.Point(795, 7);
             this.btnOutputExportExcel.Name = "btnOutputExportExcel";
             this.btnOutputExportExcel.Size = new System.Drawing.Size(43, 25);
             this.btnOutputExportExcel.TabIndex = 8;
@@ -178,7 +217,7 @@
             // btnOutputExportHtml
             // 
             this.btnOutputExportHtml.ImageList = this.imageList;
-            this.btnOutputExportHtml.Location = new System.Drawing.Point(523, 6);
+            this.btnOutputExportHtml.Location = new System.Drawing.Point(732, 6);
             this.btnOutputExportHtml.Name = "btnOutputExportHtml";
             this.btnOutputExportHtml.Size = new System.Drawing.Size(47, 25);
             this.btnOutputExportHtml.TabIndex = 7;
@@ -190,7 +229,7 @@
             // 
             this.btnOutputSave.ImageIndex = 5;
             this.btnOutputSave.ImageList = this.imageList;
-            this.btnOutputSave.Location = new System.Drawing.Point(366, 6);
+            this.btnOutputSave.Location = new System.Drawing.Point(575, 6);
             this.btnOutputSave.Name = "btnOutputSave";
             this.btnOutputSave.Size = new System.Drawing.Size(75, 25);
             this.btnOutputSave.TabIndex = 4;
@@ -203,7 +242,7 @@
             // 
             this.btnOutputLoad.ImageIndex = 4;
             this.btnOutputLoad.ImageList = this.imageList;
-            this.btnOutputLoad.Location = new System.Drawing.Point(285, 6);
+            this.btnOutputLoad.Location = new System.Drawing.Point(494, 6);
             this.btnOutputLoad.Name = "btnOutputLoad";
             this.btnOutputLoad.Size = new System.Drawing.Size(75, 25);
             this.btnOutputLoad.TabIndex = 3;
@@ -215,7 +254,7 @@
             // lblOutputExport
             // 
             this.lblOutputExport.AutoSize = true;
-            this.lblOutputExport.Location = new System.Drawing.Point(476, 12);
+            this.lblOutputExport.Location = new System.Drawing.Point(685, 12);
             this.lblOutputExport.Name = "lblOutputExport";
             this.lblOutputExport.Size = new System.Drawing.Size(40, 13);
             this.lblOutputExport.TabIndex = 2;
@@ -231,7 +270,7 @@
             this.cmbOutputSortBy.Location = new System.Drawing.Point(61, 10);
             this.cmbOutputSortBy.Name = "cmbOutputSortBy";
             this.cmbOutputSortBy.Size = new System.Drawing.Size(177, 21);
-            this.cmbOutputSortBy.TabIndex = 1;
+            this.cmbOutputSortBy.TabIndex = 0;
             this.cmbOutputSortBy.SelectedIndexChanged += new System.EventHandler(this.cmbOutputSortBy_SelectedIndexChanged);
             // 
             // lblOutputSortBy
@@ -270,6 +309,7 @@
             // 
             // grbBenchmark
             // 
+            this.grbBenchmark.Controls.Add(this.chkMakePlayersAllPositioners);
             this.grbBenchmark.Controls.Add(this.chkHideCMWindow);
             this.grbBenchmark.Controls.Add(this.lblBMRunningCount);
             this.grbBenchmark.Controls.Add(this.lblBMDoneCount);
@@ -303,7 +343,7 @@
             this.chkHideCMWindow.Location = new System.Drawing.Point(9, 225);
             this.chkHideCMWindow.Name = "chkHideCMWindow";
             this.chkHideCMWindow.Size = new System.Drawing.Size(111, 17);
-            this.chkHideCMWindow.TabIndex = 18;
+            this.chkHideCMWindow.TabIndex = 8;
             this.chkHideCMWindow.Text = "Hide CM windows";
             this.chkHideCMWindow.UseVisualStyleBackColor = true;
             // 
@@ -353,7 +393,7 @@
             this.btnBMSavFilenameDlg.Location = new System.Drawing.Point(343, 84);
             this.btnBMSavFilenameDlg.Name = "btnBMSavFilenameDlg";
             this.btnBMSavFilenameDlg.Size = new System.Drawing.Size(22, 22);
-            this.btnBMSavFilenameDlg.TabIndex = 13;
+            this.btnBMSavFilenameDlg.TabIndex = 3;
             this.btnBMSavFilenameDlg.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnBMSavFilenameDlg, "Select game save file");
             this.btnBMSavFilenameDlg.UseVisualStyleBackColor = true;
@@ -367,7 +407,7 @@
             this.txtBMSavFilename.Name = "txtBMSavFilename";
             this.txtBMSavFilename.ReadOnly = true;
             this.txtBMSavFilename.Size = new System.Drawing.Size(327, 20);
-            this.txtBMSavFilename.TabIndex = 11;
+            this.txtBMSavFilename.TabIndex = 2;
             this.txtBMSavFilename.TabStop = false;
             // 
             // lblBMSavFilename
@@ -410,7 +450,7 @@
             this.btnStart.Location = new System.Drawing.Point(309, 252);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(59, 25);
-            this.btnStart.TabIndex = 10;
+            this.btnStart.TabIndex = 9;
             this.btnStart.Text = "Start";
             this.btnStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnStart, "Start benchmarking");
@@ -511,7 +551,7 @@
             this.chkDontReplaceAITactics.Location = new System.Drawing.Point(147, 5);
             this.chkDontReplaceAITactics.Name = "chkDontReplaceAITactics";
             this.chkDontReplaceAITactics.Size = new System.Drawing.Size(138, 17);
-            this.chkDontReplaceAITactics.TabIndex = 49;
+            this.chkDontReplaceAITactics.TabIndex = 0;
             this.chkDontReplaceAITactics.Text = "Do NOT replace tactics";
             this.chkDontReplaceAITactics.UseVisualStyleBackColor = true;
             this.chkDontReplaceAITactics.CheckedChanged += new System.EventHandler(this.chkDontReplaceAITactics_CheckedChanged);
@@ -524,7 +564,7 @@
             this.btnAIAddSav.Location = new System.Drawing.Point(174, 282);
             this.btnAIAddSav.Name = "btnAIAddSav";
             this.btnAIAddSav.Size = new System.Drawing.Size(57, 23);
-            this.btnAIAddSav.TabIndex = 48;
+            this.btnAIAddSav.TabIndex = 4;
             this.btnAIAddSav.Text = ".sav";
             this.btnAIAddSav.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnAIAddSav, "Add from game save file");
@@ -539,7 +579,7 @@
             this.btnAIAddFolder.Location = new System.Drawing.Point(111, 282);
             this.btnAIAddFolder.Name = "btnAIAddFolder";
             this.btnAIAddFolder.Size = new System.Drawing.Size(57, 23);
-            this.btnAIAddFolder.TabIndex = 47;
+            this.btnAIAddFolder.TabIndex = 3;
             this.btnAIAddFolder.Text = "folder";
             this.btnAIAddFolder.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnAIAddFolder, "Add from folder");
@@ -554,7 +594,7 @@
             this.btnAIAddFiles.Location = new System.Drawing.Point(58, 283);
             this.btnAIAddFiles.Name = "btnAIAddFiles";
             this.btnAIAddFiles.Size = new System.Drawing.Size(47, 23);
-            this.btnAIAddFiles.TabIndex = 46;
+            this.btnAIAddFiles.TabIndex = 2;
             this.btnAIAddFiles.Text = ".tct";
             this.btnAIAddFiles.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnAIAddFiles, "Add from .tct / .pct files");
@@ -580,7 +620,7 @@
             this.btnAIDelete.Location = new System.Drawing.Point(237, 283);
             this.btnAIDelete.Name = "btnAIDelete";
             this.btnAIDelete.Size = new System.Drawing.Size(22, 22);
-            this.btnAIDelete.TabIndex = 43;
+            this.btnAIDelete.TabIndex = 5;
             this.btnAIDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnAIDelete, "Remove selected");
             this.btnAIDelete.UseVisualStyleBackColor = true;
@@ -594,7 +634,7 @@
             this.btnAIClear.Location = new System.Drawing.Point(265, 283);
             this.btnAIClear.Name = "btnAIClear";
             this.btnAIClear.Size = new System.Drawing.Size(22, 22);
-            this.btnAIClear.TabIndex = 44;
+            this.btnAIClear.TabIndex = 6;
             this.toolTip.SetToolTip(this.btnAIClear, "Remove all");
             this.btnAIClear.UseVisualStyleBackColor = true;
             this.btnAIClear.Click += new System.EventHandler(this.btnAIClear_Click);
@@ -617,7 +657,7 @@
             this.lstAITactics.Name = "lstAITactics";
             this.lstAITactics.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lstAITactics.Size = new System.Drawing.Size(284, 251);
-            this.lstAITactics.TabIndex = 32;
+            this.lstAITactics.TabIndex = 1;
             this.lstAITactics.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstAITactics_KeyUp);
             // 
             // pnlHumanTactics
@@ -644,7 +684,7 @@
             this.btnHumanAddSav.Location = new System.Drawing.Point(167, 282);
             this.btnHumanAddSav.Name = "btnHumanAddSav";
             this.btnHumanAddSav.Size = new System.Drawing.Size(57, 23);
-            this.btnHumanAddSav.TabIndex = 42;
+            this.btnHumanAddSav.TabIndex = 3;
             this.btnHumanAddSav.Text = ".sav";
             this.btnHumanAddSav.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnHumanAddSav, "Add from game save file");
@@ -659,7 +699,7 @@
             this.btnHumanAddFolder.Location = new System.Drawing.Point(104, 282);
             this.btnHumanAddFolder.Name = "btnHumanAddFolder";
             this.btnHumanAddFolder.Size = new System.Drawing.Size(57, 23);
-            this.btnHumanAddFolder.TabIndex = 41;
+            this.btnHumanAddFolder.TabIndex = 2;
             this.btnHumanAddFolder.Text = "folder";
             this.btnHumanAddFolder.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnHumanAddFolder, "Add from folder");
@@ -674,7 +714,7 @@
             this.btnHumanAddFiles.Location = new System.Drawing.Point(51, 283);
             this.btnHumanAddFiles.Name = "btnHumanAddFiles";
             this.btnHumanAddFiles.Size = new System.Drawing.Size(47, 23);
-            this.btnHumanAddFiles.TabIndex = 40;
+            this.btnHumanAddFiles.TabIndex = 1;
             this.btnHumanAddFiles.Text = ".tct";
             this.btnHumanAddFiles.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnHumanAddFiles, "Add from .tct / .pct files");
@@ -701,7 +741,7 @@
             this.lstHumanTactics.Name = "lstHumanTactics";
             this.lstHumanTactics.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lstHumanTactics.Size = new System.Drawing.Size(267, 251);
-            this.lstHumanTactics.TabIndex = 36;
+            this.lstHumanTactics.TabIndex = 0;
             this.lstHumanTactics.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstHumanTactics_KeyUp);
             // 
             // lblHumanTactics
@@ -721,7 +761,7 @@
             this.btnHumanDelete.Location = new System.Drawing.Point(230, 283);
             this.btnHumanDelete.Name = "btnHumanDelete";
             this.btnHumanDelete.Size = new System.Drawing.Size(22, 22);
-            this.btnHumanDelete.TabIndex = 37;
+            this.btnHumanDelete.TabIndex = 4;
             this.btnHumanDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnHumanDelete, "Remove selected");
             this.btnHumanDelete.UseVisualStyleBackColor = true;
@@ -735,7 +775,7 @@
             this.btnHumanClear.Location = new System.Drawing.Point(258, 283);
             this.btnHumanClear.Name = "btnHumanClear";
             this.btnHumanClear.Size = new System.Drawing.Size(22, 22);
-            this.btnHumanClear.TabIndex = 38;
+            this.btnHumanClear.TabIndex = 5;
             this.toolTip.SetToolTip(this.btnHumanClear, "Remove all");
             this.btnHumanClear.UseVisualStyleBackColor = true;
             this.btnHumanClear.Click += new System.EventHandler(this.btnHumanClear_Click);
@@ -782,6 +822,16 @@
             // dlgCmFolder
             // 
             this.dlgCmFolder.Description = "Select CM folder";
+            // 
+            // chkMakePlayersAllPositioners
+            // 
+            this.chkMakePlayersAllPositioners.AutoSize = true;
+            this.chkMakePlayersAllPositioners.Location = new System.Drawing.Point(9, 120);
+            this.chkMakePlayersAllPositioners.Name = "chkMakePlayersAllPositioners";
+            this.chkMakePlayersAllPositioners.Size = new System.Drawing.Size(155, 17);
+            this.chkMakePlayersAllPositioners.TabIndex = 4;
+            this.chkMakePlayersAllPositioners.Text = "Make players all positioners";
+            this.chkMakePlayersAllPositioners.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -876,6 +926,10 @@
         private System.Windows.Forms.OpenFileDialog dlgBmSavFilename;
         private System.Windows.Forms.CheckBox chkDontReplaceAITactics;
         private System.Windows.Forms.FolderBrowserDialog dlgCmFolder;
+        private System.Windows.Forms.RadioButton rdbHumanTacticsInCols;
+        private System.Windows.Forms.RadioButton rdbHumanTacticsInRows;
+        private System.Windows.Forms.Label lblHumanTacticsInRowsCaption;
+        private System.Windows.Forms.CheckBox chkMakePlayersAllPositioners;
     }
 }
 

@@ -67,7 +67,9 @@ namespace CM
                 MainFormLocation = Location,
                 MainFormSize = Size,
                 SplitterDistance = splitContainer.SplitterDistance,
-                WindowState = WindowState
+                WindowState = WindowState,
+                HumanTacticsInRows = rdbHumanTacticsInRows.Checked,
+                MakePlayersAllPositioners = chkMakePlayersAllPositioners.Checked
             };
             if (!string.IsNullOrWhiteSpace(dlgTacticFiles.FileName)) state.AddFiles = Path.GetDirectoryName(dlgTacticFiles.FileName);
             else state.AddFiles = dlgTacticFiles.InitialDirectory;
@@ -109,6 +111,7 @@ namespace CM
             dlgAddSavFilename.InitialDirectory = state.AddSav;
             txtCmFolder.Text = dlgCmFolder.SelectedPath = state.CMFolder;
             txtBMSavFilename.Text = state.BMSavFilename;
+            dlgBmSavFilename.InitialDirectory = Path.GetDirectoryName(state.BMSavFilename);
             txtTestCount.Text = "" + state.TestCount;
             txtThreadCount.Text = "" + state.ThreadCount;
             txtThreadTimeout.Text = "" + state.ThreadTimeoutSec;
@@ -117,6 +120,9 @@ namespace CM
             Size = state.MainFormSize;
             splitContainer.SplitterDistance = state.SplitterDistance;
             WindowState = state.WindowState;
+            rdbHumanTacticsInRows.Checked = state.HumanTacticsInRows;
+            rdbHumanTacticsInCols.Checked = !state.HumanTacticsInRows;
+            chkMakePlayersAllPositioners.Checked = state.MakePlayersAllPositioners;
         }
 
         private void AddFromSavFile(ListBox listBox)
@@ -254,15 +260,16 @@ namespace CM
             cmbOutputSortBy.Items.Clear();
             cmbOutputSortBy.Items.Add("Name");
             cmbOutputSortBy.Items.Add("Overall");
-            for (int i = 0; i < bmResults.AITactics.Count - 1; i++) cmbOutputSortBy.Items.Add(bmResults.AITactics[i]);
+            for (int i = 0; i < bmResults.TestNames.Count - 1; i++) cmbOutputSortBy.Items.Add(bmResults.TestNames[i]);
             cmbOutputSortBy.SelectedIndex = 0;
             cmbOutputSortBy.EndUpdate();
         }
 
         private void ResortBmResults()
         {
-            bmResults.SortByColumn = cmbOutputSortBy.SelectedIndex == 0 ? -1 : (cmbOutputSortBy.SelectedIndex == 1 ? (bmResults.AITactics.Count - 1) : (cmbOutputSortBy.SelectedIndex - 2));
-            webGrid.DocumentText = bmResults.ToHtml();
+            if (bmResults == null) return;
+            bmResults.SortByColumn = cmbOutputSortBy.SelectedIndex == 0 ? -1 : (cmbOutputSortBy.SelectedIndex == 1 ? (bmResults.TestNames.Count - 1) : (cmbOutputSortBy.SelectedIndex - 2));
+            webGrid.DocumentText = bmResults.ToHtml(rdbHumanTacticsInRows.Checked);
         }
 
         private void StartBenchmark()
@@ -299,7 +306,7 @@ namespace CM
             try { Directory.Delete(TEMP_SAV_FOLDER, true); } catch { }
             try { Directory.CreateDirectory(TEMP_SAV_FOLDER); } catch { }
             string[,] savFilenames = new string[aiTactics.Count, humanTactics.Count];
-            bmResults = new TacticBmResults(aiTactics.Select(x => x.Name).ToList(), humanTactics.Select(x => x.Name).ToList());
+            bmResults = new TacticBmResults("AI tactics", aiTactics.Select(x => x.Name).ToList(), humanTactics.Select(x => x.Name).ToList());
             Queue<Tuple<int, int>> remQu = new Queue<Tuple<int, int>>();
             Cursor.Current = Cursors.WaitCursor;
             for (int aiTacticIndex = 0; aiTacticIndex < aiTactics.Count; aiTacticIndex++)
@@ -311,6 +318,20 @@ namespace CM
                     Tactic aiTactic = aiTactics[aiTacticIndex];
                     saveReader.ReplaceHumanTactic(humanTactic);
                     if (!uiState.DontReplaceTactics) saveReader.ReplaceAITacticsWithSameOne(aiTactic);
+                    if (uiState.MakePlayersAllPositioners)
+                    {
+                        List<TStaff> staffs = saveReader.BlockToObjects<TStaff>("staff.dat");
+                        List<TPlayer> players = saveReader.BlockToObjects<TPlayer>("player.dat");
+                        foreach (TStaff staff in staffs.Where(x => x.ClubJob == benchmarkSaveInfo.HumanClub.ID && x.Player >= 0 && x.Player < players.Count))
+                        {
+                            TPlayer player = players[staff.Player];
+                            if (player.Goalkeeper >= 20) continue;
+                            player.Goalkeeper = 1;
+                            player.Sweeper = player.Defender = player.DefensiveMidfielder = player.Midfielder = player.AttackingMidfielder = player.Attacker = player.WingBack = player.FreeRole = 20;
+                            player.LeftSide = player.Central = player.RightSide = 20;
+                        }
+                        saveReader.ObjectsToBlock("player.dat", players);
+                    }
                     saveReader.Write(savFilename, false);
                     for (int i = 0; i < uiState.TestCount; i++) remQu.Enqueue(new Tuple<int, int>(aiTacticIndex, humanTacticIndex));
                 }
@@ -428,6 +449,14 @@ namespace CM
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadUIState();
+            rdbHumanTacticsInRows.CheckedChanged += HumanTacticsInRows_CheckedChanged;
+            rdbHumanTacticsInCols.CheckedChanged += HumanTacticsInRows_CheckedChanged;
+        }
+
+        private void HumanTacticsInRows_CheckedChanged(object sender, EventArgs e)
+        {
+            if (bmResults == null) return;
+            webGrid.DocumentText = bmResults.ToHtml(rdbHumanTacticsInRows.Checked);
         }
 
         private void btnOutputSave_Click(object sender, EventArgs e)
@@ -473,7 +502,7 @@ namespace CM
             if (dlgExportResultsToHtml.ShowDialog() != DialogResult.OK) return;
             try
             {
-                File.WriteAllText(dlgExportResultsToHtml.FileName, bmResults.ToHtml());
+                File.WriteAllText(dlgExportResultsToHtml.FileName, bmResults.ToHtml(rdbHumanTacticsInRows.Checked));
             }
             catch (Exception ex)
             {

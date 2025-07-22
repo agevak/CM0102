@@ -85,6 +85,16 @@ Benchmarks tactics.
 Input:
 <ul>
 	<li>Human tactics to test.</li>
+	<li>.sav files for testing.</li>
+</ul>
+It's similar to TacticsBenchmarkerVsAI, but tests human tactics vs multiple saves rather than multiple AI tactics.
+
+# TacticsBenchmarkerVsAI
+Benchmarks tactics.
+
+Input:
+<ul>
+	<li>Human tactics to test.</li>
 	<li>.sav file for testing.</li>
 	<li>AI tactics to play against.</li>
 </ul>

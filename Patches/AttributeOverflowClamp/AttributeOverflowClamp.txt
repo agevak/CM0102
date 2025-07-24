@@ -1,0 +1,1 @@
+﻿Clamps in-match values of Finishing (23) and Creativity (19) to avoid receiving negative effects from high values of these attributes.

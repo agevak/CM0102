@@ -1,0 +1,26 @@
+Vision.
+Next line after function end is at 006EDB28:
+	mov ebx,[esi+0000019E]
+Capped value must be stored via:
+	fstp dword ptr [esi+000000F1]
+Replace with call of extra function located in expanded exe region, same as used in MarkingAndPositionClampTo100 patch:
+	call 00DE7470
+Extra function:
+	fld dword ptr [esi+000000F1]
+	fcomp dword ptr [00DE7496]
+	fnstsw ax
+	test ah,41
+	jne 00DE748F # Jumps if less.
+	fld dword ptr [00DE7496]
+	fstp dword ptr [esi+000000F1]
+	mov ebx,[esi+0000019E]
+	ret
+	{cap constant at 00DE7496 as double (qword)}
+
+Finishing.
+Next lines after function end is at 006ECEF7:
+	movsx eax,word ptr [esi+3B]
+	mov edi,[esi+6D]
+Capped value must be stored via:
+	fstp dword ptr [esi+00000099]
+Similar to Vision. Extra function at 00DE749B.

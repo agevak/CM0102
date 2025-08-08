@@ -1,12 +1,14 @@
 Turns CM into benchmarker.
 
-Full version includes:
+Minimal version includes:
 1) Remove pause between matches.
 2) Go on holiday automatically if CM .exe called with '-load xxx.sav' argument.
-3) 31st May, prints league table to file and terminates the game. In order to work properly, division ID must be injected into CM process memory.
-   This is implemented in Benchmarker application.
-   'Enable your potiential to grow' patch should be NOT installed (interference)!
-4) No substitutes (works only during new game generation).
-5) No attribute changes.
-6) No injuries happen. To clear initial injuries during new game generation, manually delete/clear "Data\player_setup.cfg" file.
-7) No manager sacking.
+3) Stop holiday on 31st May. 'Enable your potiential to grow' patch should be NOT installed (interference)!
+
+Full version includes also:
+1) No substitutes (works only during new game generation).
+2) No attribute changes.
+3) No persistent injuries. Injuries can occur during matches, but do not perist after matches.
+   To clear initial injuries during new game generation, manually delete/clear "Data\player_setup.cfg" file.
+4) No manager sacking.
+5) Condition becomes 100% after rest. Condition drops normally during matches, but recovers to 100% between matches.

@@ -276,7 +276,7 @@ namespace CM.Save
             if (block != null)
             {
                 var slices = CastObjectsToSlices(objects);
-                Rebuild(block, slices, contractSpecific);
+                Rebuild(block, slices, contractSpecific, Marshal.SizeOf(typeof(T)));
             }
         }
 
@@ -382,7 +382,7 @@ namespace CM.Save
             return ret;
         }
 
-        byte[] Rebuild(byte[] blockDataBuffer, List<byte[]> slices, bool contractSpecific = false)
+        byte[] Rebuild(byte[] blockDataBuffer, List<byte[]> slices, bool contractSpecific = false, int recordSize = 0)
         {
             var totalSliceSize = slices.Sum(x => x.Length);
             byte[] newDataBuffer;
@@ -390,22 +390,25 @@ namespace CM.Save
 
             if (contractSpecific)
             {
+                // Layout: [int preCount][int x][preCount * 21-byte header][records][tail].
+                // The record count is x when preCount == 0, otherwise the last int of the header
+                // (same rule as BlockToObjects). The tail is another table (e.g. in contract.dat)
+                // that must be kept as is, so the block grows or shrinks with the record count;
+                // writing over a fixed-size buffer would overwrite the tail when records are added.
                 var intPreCount = BitConverter.ToInt32(blockDataBuffer, 0);
-                var count = BitConverter.ToInt32(blockDataBuffer, 4);
                 ptr = (8 + (intPreCount * 21));
-                /*
-                newDataBuffer = new byte[totalSliceSize + ptr + 13];
-                Array.Copy(block.dataBuffer, 0, newDataBuffer, 0, ptr);
+                int countPos = intPreCount > 0 ? ptr - 4 : 4;
+                int oldCount = BitConverter.ToInt32(blockDataBuffer, countPos);
+                if (recordSize <= 0 && slices.Count > 0) recordSize = slices[0].Length;
+                int tailStart = ptr + oldCount * recordSize;
+                if (tailStart > blockDataBuffer.Length)
+                    throw new InvalidOperationException("Unexpected layout of a contract-like block.");
+                int tailLength = blockDataBuffer.Length - tailStart;
 
-                // Write new Block Count
-                if (intPreCount == 0)
-                    Array.Copy(BitConverter.GetBytes(slices.Count), 0, newDataBuffer, 4, 4);
-
-                newDataBuffer[newDataBuffer.Length - 1] = 1;
-                */
-                // Simplified version (as we are not expanding or contracting this right now)
-                newDataBuffer = new byte[blockDataBuffer.Length];
-                Array.Copy(blockDataBuffer, 0, newDataBuffer, 0, blockDataBuffer.Length);
+                newDataBuffer = new byte[ptr + totalSliceSize + tailLength];
+                Array.Copy(blockDataBuffer, 0, newDataBuffer, 0, ptr);
+                Array.Copy(BitConverter.GetBytes(slices.Count), 0, newDataBuffer, countPos, 4);
+                Array.Copy(blockDataBuffer, tailStart, newDataBuffer, ptr + totalSliceSize, tailLength);
             }
             else
                 newDataBuffer = new byte[totalSliceSize];
@@ -418,9 +421,68 @@ namespace CM.Save
 
             return newDataBuffer;
         }
-        void Rebuild(Block block, List<byte[]> slices, bool contractSpecific = false)
+        void Rebuild(Block block, List<byte[]> slices, bool contractSpecific = false, int recordSize = 0)
         {
-            block.dataBuffer = Rebuild(block.dataBuffer, slices, contractSpecific);
+            block.dataBuffer = Rebuild(block.dataBuffer, slices, contractSpecific, recordSize);
+        }
+
+        // general.dat keeps a 79-byte record per staff (the game's table at [0xAE2D0C], read by
+        // 0x4CF5A0): int index of the staff's contract in contract.dat (-1 = none), int index of
+        // the loan contract, then status bytes. A contract appended to contract.dat must be linked
+        // there, otherwise the game treats the player as having no contract (and no squad number).
+        public const int StaffRecordSize = 79;
+
+        // Links every contract whose staff has no contract registered in general.dat.
+        // Call after writing contract.dat. Returns the number of staff linked.
+        public int LinkNewContracts(CMDB db)
+        {
+            Block block = FindBlock("general.dat");
+            if (block == null) throw new InvalidOperationException("general.dat not found.");
+            ReadBlockDataIfNotReadYet(block);
+            byte[] data = block.dataBuffer;
+
+            var index = new Dictionary<int, int>();
+            for (int i = 0; i < db.Contracts.Count; i++)
+                if (!index.ContainsKey(db.Contracts[i].ID)) index[db.Contracts[i].ID] = i;
+
+            int tableStart = FindStaffContractTable(data, db, index);
+            if (tableStart < 0) throw new InvalidOperationException("Staff contract table not found in general.dat.");
+
+            int linked = 0;
+            foreach (TStaff staff in db.Staffs)
+            {
+                if (!index.TryGetValue(staff.ID, out int contractIndex)) continue;
+                int pos = tableStart + staff.ID * StaffRecordSize;
+                if (BitConverter.ToInt32(data, pos) != -1 || BitConverter.ToInt32(data, pos + 4) != -1) continue;
+                Array.Copy(BitConverter.GetBytes(contractIndex), 0, data, pos, 4);
+                linked++;
+            }
+            return linked;
+        }
+
+        // The table starts at 4007 in the saves seen so far; validate it (or search for it)
+        // using staff whose single contract the game has already linked.
+        private static int FindStaffContractTable(byte[] data, CMDB db, Dictionary<int, int> index)
+        {
+            var samples = db.Staffs
+                .Where(s => s.ClubJob >= 0 && s.ID < db.ContractsByStaffId.Count && db.ContractsByStaffId[s.ID].Count == 1 && index.ContainsKey(s.ID))
+                .Where((s, i) => i % 997 == 0)
+                .Take(40).ToList();
+            if (samples.Count < 5) return -1;
+            int maxStart = data.Length - db.Staffs.Count * StaffRecordSize;
+            Func<int, bool> valid = start => start >= 0 && start <= maxStart &&
+                samples.All(s => BitConverter.ToInt32(data, start + s.ID * StaffRecordSize) == index[s.ID]);
+
+            if (valid(4007)) return 4007;
+            TStaff first = samples[0];
+            int wanted = index[first.ID];
+            for (int p = 0; p + 4 <= data.Length; p++)
+            {
+                if (BitConverter.ToInt32(data, p) != wanted) continue;
+                int start = p - first.ID * StaffRecordSize;
+                if (valid(start)) return start;
+            }
+            return -1;
         }
 
         public void Write(string outFile, bool compressed)

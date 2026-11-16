@@ -1,7 +1,23 @@
-﻿namespace CM.Model
+﻿using CM.Save.Model;
+
+namespace CM.Model
 {
     public static class ContractExtensions
     {
+        // The game reads a player's squad number from his contract for that club: byte +0x3A
+        // of the 80-byte contract record (bits 32..39 of Unknown18_1), stored negated
+        // (-10 = shirt 10, 0 = none); see 0x85A760 in the game exe. TPlayer.SquadNumber is only
+        // used for staff created after the database.
+        public static int GetSquadNumber(this TContract contract)
+        {
+            return System.Math.Abs((int)unchecked((sbyte)(byte)(contract.Unknown18_1 >> 32)));
+        }
+        public static void SetSquadNumber(this TContract contract, int number)
+        {
+            ulong value = unchecked((byte)(sbyte)(-number));
+            contract.Unknown18_1 = (contract.Unknown18_1 & ~(0xFFUL << 32)) | (value << 32);
+        }
+
         public static TransferStatus GetTransferStatus(int status)
         {
             if ((status & 1) != 0) return TransferStatus.ListedByClub;
